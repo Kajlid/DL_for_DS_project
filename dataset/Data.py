@@ -1,23 +1,20 @@
-import tensorflow as tf
-import matplotlib.pyplot as plt
-import numpy as np
-import platform
-import time
-import pathlib
 import os
+import requests
 
-print('Python version:', platform.python_version())
-print('Tensorflow version:', tf.__version__)
-print('Keras version:', tf.keras.__version__)
-
-cache_dir = './tmp'
-dataset_file_name = 'shakespeare.txt'
 dataset_file_origin = 'https://storage.googleapis.com/download.tensorflow.org/data/shakespeare.txt'
+save_path = os.path.join('dataset', 'shakespeare.txt')
 
-dataset_file_path = tf.keras.utils.get_file(
-    fname=dataset_file_name,
-    origin=dataset_file_origin,
-    cache_dir=pathlib.Path(cache_dir).absolute()
-)
+response = requests.get(dataset_file_origin)
+response.raise_for_status()
 
-print(dataset_file_path)
+with open(save_path, 'w', encoding='utf-8') as f:
+    f.write(response.text)
+    
+print(f"Saved dataset to {save_path}")
+
+with open(save_path, 'r', encoding='utf-8') as f:
+    text_data = f.read()
+
+print(f"Dataset length: {len(text_data)} characters")
+print("Preview:\n")
+print(text_data[:500])
