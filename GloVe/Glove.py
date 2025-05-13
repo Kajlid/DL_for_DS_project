@@ -111,7 +111,6 @@ class Glove:
         :type       i:     int
         """
 
-        # USE YOUR CODE FROM THE RANDOM INDEXING TASK
         left_context = i - self.left_window_size
         right_context = i + self.right_window_size
         
